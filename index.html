@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gazdasági App</title>
+  <!-- PWA meta tagok -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ffffff">
+  <!-- Chart.js betöltése -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Általános stílusok */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f7f7f7;
+    }
+    input, button, select {
+      margin: 5px;
+      padding: 8px;
+      font-size: 1rem;
+    }
+    #transactionsList div {
+      margin: 5px 0;
+      padding: 5px;
+      border-bottom: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>Gazdasági és Pénzügyi App</h1>
+
+  <!-- Új kategória létrehozása saját ikon választással -->
+  <div id="customCategorySection">
+    <input type="text" id="newCategory" placeholder="Új kategória neve">
+    <input type="text" id="categoryIcon" placeholder="Ikon, pl. 📌">
+    <button onclick="addCategory()">➕ Kategória hozzáadása</button>
+  </div>
+
+  <!-- Kategória kiválasztása -->
+  <select id="category">
+    <option value="bevétel">💰 Bevétel</option>
+    <option value="kiadás">🛒 Kiadás</option>
+    <option value="megtakarítás">🏦 Megtakarítás</option>
+  </select>
+
+  <!-- Tranzakció felvitel -->
+  <div id="transactionForm">
+    <input type="number" id="transactionAmount" placeholder="Összeg">
+    <input type="text" id="transactionDescription" placeholder="Leírás">
+    <button onclick="addTransaction()">Tétel hozzáadása</button>
+    <div id="errorMessage" style="color: red;"></div>
+  </div>
+
+  <!-- Egyenleg és megtakarítás rész -->
+  <div id="balanceSection">
+    <h2>Egyenleg</h2>
+    <p>Bevett pénz: <span id="totalIncome">0</span> Ft</p>
+    <p>Elköltött pénz: <span id="totalExpense">0</span> Ft</p>
+    <h3>Megtakarítás</h3>
+    <p>Megtakarított: <span id="totalSavings">0</span> Ft</p>
+  </div>
+
+  <!-- Tranzakciók listája -->
+  <div id="transactionsList"></div>
+
+  <!-- Grafikon -->
+  <canvas id="transactionChart" width="400" height="200"></canvas>
+
+  <!-- Alkalmazás logika -->
+  <script src="app.js"></script>
+  
+  <!-- PWA: Service Worker regisztráció -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(registration => {
+          console.log('Service Worker regisztrálva:', registration.scope);
+        })
+        .catch(error => {
+          console.error('Service Worker regisztráció sikertelen:', error);
+        });
+    }
+  </script>
+</body>
+</html>
